@@ -10,7 +10,11 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/ui": "^4.5.0",
     "nuxt": "^4.3.1",
+    "nuxt-lucide-icons": "^2.0.0",
+    "nuxt-viewport": "^2.4.0",
+    "tailwindcss": "^4.2.1",
     "vue": "^3.5.28",
     "vue-router": "^4.6.4"
   }

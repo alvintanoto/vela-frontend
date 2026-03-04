@@ -98,10 +98,14 @@ const dropdownItems = ref<DropdownMenuItem[][]>([
 
             <template #right>
                 <UColorModeButton color="primary" class="cursor-pointer" />
+
+                <NuxtLink to="/transmit" v-if="authStore.isAuthenticated">
+                    <UButton color='neutral' variant="link" icon="i-lucide-square-plus" class="cursor-pointer">
+                        Transmit
+                    </UButton>
+                </NuxtLink>
                 <UDropdownMenu v-if="authStore.isAuthenticated" :items="dropdownItems" class="ml-2" outline>
-                    <UAvatar
-                        src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"
-                        size="md" class="" />
+                    <UAvatar src="https://picsum.photos/200/200?random=1" size="md" class="" />
                 </UDropdownMenu>
                 <NuxtLink v-else to="/login">
 
@@ -127,7 +131,7 @@ const dropdownItems = ref<DropdownMenuItem[][]>([
                 <USeparator v-if="!collapseNavigation" orientation="vertical" class="h-auto" />
 
                 <div class="w-full flex justify-center">
-                    <div class="flex flex-row w-full m-4 max-w-7xl">
+                    <div class="flex flex-row w-full m-4 max-w-240">
                         <div class="grow p-2">
                             <slot name="content"></slot>
                         </div>

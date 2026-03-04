@@ -23,10 +23,10 @@ watch(viewport.breakpoint, (newBreakpoint, oldBreakpoint) => {
 const items = ref<NavigationMenuItem[][]>([
     [
         {
-            label: 'Deep Space',
+            label: 'Your Space',
             to: '/',
             icon: 'i-lucide-telescope',
-            active: route.path.startsWith("/"),
+            active: route.path == "/",
             class: "p-2 mb-1"
         },
         {
@@ -78,19 +78,23 @@ const items = ref<NavigationMenuItem[][]>([
         <USeparator />
 
         <UMain>
+
             <div class="flex flex-row min-h-[calc(100vh-var(--ui-header-height))]">
                 <UNavigationMenu v-if="!collapseNavigation" orientation="vertical" :items="items" class="m-2 w-54" />
-                <USeparator v-if="!collapseNavigation" orientation="vertical" />
-                <div class="flex flex-row w-full m-4">
+                <USeparator v-if="!collapseNavigation" orientation="vertical" class="h-auto" />
 
-                    <div class="w-[70%] p-2">
-                        <slot name="content"></slot>
+                <div class="w-full flex justify-center">
+                    <div class="flex flex-row w-full m-4 max-w-7xl">
+                        <div class="grow p-2">
+                            <slot name="content"></slot>
+                        </div>
+
+                        <div v-if="!collapseNavigation" class=" w-64 p-2">
+                            <slot name="content-right">
+                            </slot>
+                        </div>
+
                     </div>
-
-                    <div v-if="!collapseNavigation" class="flex-auto min-w-24 p-2">
-                        <slot name="content-right"></slot>
-                    </div>
-
                 </div>
             </div>
         </UMain>

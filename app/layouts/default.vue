@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { separator } from '#build/ui'
-import type { NavigationMenuItem } from '@nuxt/ui'
+import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
 
+const authStore = useAuthStore()
 const route = useRoute()
 const collapseNavigation = ref(false)
 
@@ -20,21 +21,21 @@ watch(viewport.breakpoint, (newBreakpoint, oldBreakpoint) => {
     checkViewport()
 })
 
-const items = ref<NavigationMenuItem[][]>([
+const navItems = ref<NavigationMenuItem[][]>([
     [
         {
             label: 'Your Space',
             to: '/',
             icon: 'i-lucide-telescope',
             active: route.path == "/",
-            class: "p-2 mb-1"
+            class: "p-2 m-1"
         },
         {
             label: 'Trending',
             to: '/trending',
             icon: 'i-lucide-trending-up',
             active: route.path.startsWith("/trending"),
-            class: "p-2 mb-1"
+            class: "p-2 m-1"
 
         },
         {
@@ -42,10 +43,45 @@ const items = ref<NavigationMenuItem[][]>([
             to: '/explore',
             icon: 'i-lucide-radar',
             active: route.path.startsWith("/explore"),
-            class: "p-2 mb-4"
+            class: "p-2 m-1"
 
         },
     ]
+])
+
+const dropdownItems = ref<DropdownMenuItem[][]>([
+    [
+        {
+            label: 'Profile',
+            icon: 'i-lucide-user',
+            type: 'link',
+            onSelect: () => {
+                console.log("Profile")
+            }
+        },
+        {
+            type: 'separator'
+        },
+        {
+            label: 'Settings',
+            type: 'link',
+            icon: 'i-lucide-settings',
+            onSelect: (e) => {
+            }
+        },
+        {
+            type: 'separator'
+        },
+        {
+            label: 'Logout',
+            type: 'link',
+            icon: 'i-lucide-log-out',
+            color: 'error',
+            onSelect: (e) => {
+                authStore.logout()
+            }
+        }
+    ],
 ])
 
 </script>
@@ -62,16 +98,23 @@ const items = ref<NavigationMenuItem[][]>([
 
             <template #right>
                 <UColorModeButton color="primary" class="cursor-pointer" />
-                <NuxtLink to="/login">
+                <UDropdownMenu v-if="authStore.isAuthenticated" :items="dropdownItems" class="ml-2" outline>
+                    <UAvatar
+                        src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"
+                        size="md" class="" />
+                </UDropdownMenu>
+                <NuxtLink v-else to="/login">
+
                     <UButton icon="i-lucide-rocket" size="md" color="primary" variant="solid" class="cursor-pointer">
                         Login
                     </UButton>
+
                 </NuxtLink>
 
             </template>
 
             <template #body>
-                <UNavigationMenu :items="items" orientation="vertical" />
+                <UNavigationMenu :items="navItems" orientation="vertical" />
             </template>
         </UHeader>
 
@@ -80,7 +123,7 @@ const items = ref<NavigationMenuItem[][]>([
         <UMain>
 
             <div class="flex flex-row min-h-[calc(100vh-var(--ui-header-height))]">
-                <UNavigationMenu v-if="!collapseNavigation" orientation="vertical" :items="items" class="m-2 w-54" />
+                <UNavigationMenu v-if="!collapseNavigation" orientation="vertical" :items="navItems" class="m-2 w-54" />
                 <USeparator v-if="!collapseNavigation" orientation="vertical" class="h-auto" />
 
                 <div class="w-full flex justify-center">

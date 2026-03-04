@@ -2,6 +2,7 @@
 import * as z from 'zod'
 import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui'
 
+const authStore = useAuthStore()
 const toast = useToast()
 
 const fields: AuthFormField[] = [{
@@ -44,8 +45,10 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>
 
-function onSubmit(payload: FormSubmitEvent<Schema>) {
+async function onSubmit(payload: FormSubmitEvent<Schema>) {
     console.log('Submitted', payload)
+    await authStore.login()
+    navigateTo("/")
 }
 </script>
 

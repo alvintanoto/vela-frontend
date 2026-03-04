@@ -1,14 +1,17 @@
 import { defineStore } from "pinia";
 
 export const useAuthStore = defineStore("auth", {
-  // arrow function recommended for full type inference
   state: () => ({
-    isAuthenticated: false,
+    isAuthenticated: true,
   }),
   actions: {
     async login() {
       console.log("login");
       this.isAuthenticated = true;
+    },
+    async logout() {
+      console.log("logout");
+      this.isAuthenticated = false;
     },
   },
 });

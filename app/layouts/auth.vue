@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { separator } from '#build/ui'
-import type { NavigationMenuItem } from '@nuxt/ui'
-
 
 </script>
 

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { editorToolbar } from '#build/ui';
+import type { Post } from '../stores/post';
 import type { EditorToolbarItem } from '@nuxt/ui';
+import z from 'zod';
 
+const postStore = usePostStore()
 
 const postTargets = [{
     label: 'v/Username',
@@ -9,6 +12,8 @@ const postTargets = [{
 },]
 
 const selectedPostTarget = ref(postTargets[0])
+
+const postTitle = ref("")
 const postValue = ref("")
 
 const editorTools: EditorToolbarItem[][] = [
@@ -142,7 +147,30 @@ const editorTools: EditorToolbarItem[][] = [
     }]
 ]
 
+const formSchema = z.object({
+    title: z.string().min(3, 'Title length cannot less than 5 word'),
+    value: z.string().trim().min(1, "Markdown cannot be empty")
+})
+const onTransmit = () => {
+    const dataToValidate = {
+        target: selectedPostTarget.value?.label,
+        title: postTitle.value,
+        value: postValue.value
+    }
 
+    const result = formSchema.safeParse(dataToValidate)
+
+    if (result.success) {
+        postStore.addPost({
+            target: dataToValidate.target,
+            title: dataToValidate.title,
+            value: dataToValidate.value,
+        } as Post)
+        navigateTo("/")
+    } else {
+        // TODO: Handle Error
+    }
+}
 </script>
 
 <template>
@@ -164,7 +192,7 @@ const editorTools: EditorToolbarItem[][] = [
             </USelectMenu>
 
             <div>
-                <UInput size="xl" placeholder="Title" class="w-full mb-4" />
+                <UInput size="xl" placeholder="Title" class="w-full mb-4" v-model="postTitle" />
                 <div>
                     <UEditor ref="editorRef" v-slot="{ editor }" v-model="postValue" content-type="markdown"
                         :ui="{ base: 'p-4 sm:px-8' }" class="w-full min-h-96 border border-muted rounded-sm"
@@ -176,8 +204,8 @@ const editorTools: EditorToolbarItem[][] = [
                 <div class="my-4 float-right">
                     <UButton class="font-bold rounded-full px-3 py-2 mx-2 cursor-pointer" variant="soft">Save as draft
                     </UButton>
-                    <UButton class="font-bold rounded-full  px-3 py-2 cursor-pointer">Transmit</UButton>
-
+                    <UButton @click="onTransmit" class="font-bold rounded-full  px-3 py-2 cursor-pointer">Transmit
+                    </UButton>
                 </div>
             </div>
         </template>

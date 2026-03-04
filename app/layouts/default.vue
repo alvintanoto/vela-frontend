@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { separator } from '#build/ui'
 import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
 
 const authStore = useAuthStore()

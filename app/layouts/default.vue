@@ -114,7 +114,7 @@ const dropdownItems = ref<DropdownMenuItem[][]>([
             </template>
 
             <template #body>
-                <UNavigationMenu :items="navItems" orientation="vertical" />
+                <UN avigationMenu :items="navItems" orientation="vertical" />
             </template>
         </UHeader>
 

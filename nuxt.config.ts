@@ -4,4 +4,5 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: ["@nuxt/ui", "nuxt-lucide-icons", "nuxt-viewport"],
   css: ["~/assets/css/main.css"],
+  ssr: true,
 });

@@ -51,46 +51,48 @@ const items = ref<NavigationMenuItem[][]>([
 </script>
 
 <template>
-    <UHeader :ui="{ container: '!max-w-none' }" class="border-b-0" title="Vela" toggle-side="left" mode="modal">
-        <template #default>
-            <div class="w-md">
-                <UInput trailing-icon="i-lucide-search" size="md" placeholder="Search..." class="w-full" />
-            </div>
-
-        </template>
-
-        <template #right>
-            <UColorModeButton color="primary" class="cursor-pointer" />
-            <UButton icon="i-lucide-rocket" size="md" color="primary" variant="solid" class="cursor-pointer">Login
-            </UButton>
-
-        </template>
-
-        <template #body>
-            <UNavigationMenu :items="items" orientation="vertical" />
-        </template>
-    </UHeader>
-
-    <USeparator />
-
-    <UMain>
-        <div class="flex">
-            <UNavigationMenu v-if="!collapseNavigation" orientation="vertical" :items="items" class="m-2 w-54">
-            </UNavigationMenu>
-            <USeparator v-if="!collapseNavigation" orientation="vertical" class="h-screen" />
-            <div class="flex flex-row-reverse w-full p-4">
-                <div class="w-6">
-                    <slot name="content"></slot>
-                </div>
-                <div class="grow">
-                    <slot name="content-right"></slot>
+    <UApp>
+        <UHeader :ui="{ container: '!max-w-none' }" class="border-b-0" title="Vela" toggle-side="left" mode="modal">
+            <template #default>
+                <div class="w-md">
+                    <UInput trailing-icon="i-lucide-search" size="md" placeholder="Search..." class="w-full" />
                 </div>
 
+            </template>
+
+            <template #right>
+                <UColorModeButton color="primary" class="cursor-pointer" />
+                <NuxtLink to="/login">
+                    <UButton icon="i-lucide-rocket" size="md" color="primary" variant="solid" class="cursor-pointer">
+                        Login
+                    </UButton>
+                </NuxtLink>
+
+            </template>
+
+            <template #body>
+                <UNavigationMenu :items="items" orientation="vertical" />
+            </template>
+        </UHeader>
+
+        <USeparator />
+
+        <UMain>
+            <div class="flex flex-row min-h-[calc(100vh-var(--ui-header-height))]">
+                <UNavigationMenu v-if="!collapseNavigation" orientation="vertical" :items="items" class="m-2 w-54" />
+                <USeparator v-if="!collapseNavigation" orientation="vertical" />
+                <div class="flex flex-row w-full m-4">
+
+                    <div class="w-[70%] p-2">
+                        <slot name="content"></slot>
+                    </div>
+
+                    <div v-if="!collapseNavigation" class="flex-auto min-w-24 p-2">
+                        <slot name="content-right"></slot>
+                    </div>
+
+                </div>
             </div>
-
-        </div>
-    </UMain>
-
-
-
+        </UMain>
+    </UApp>
 </template>

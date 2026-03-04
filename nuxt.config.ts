@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: false },
-  modules: ["@nuxt/ui", "nuxt-lucide-icons", "nuxt-viewport"],
+  modules: ["@nuxt/ui", "nuxt-lucide-icons", "nuxt-viewport", "@pinia/nuxt"],
   css: ["~/assets/css/main.css"],
   ssr: true,
 });
